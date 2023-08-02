@@ -1,0 +1,39 @@
+web Lokodinas ini adalah pengembangan dari cms swarakalibata v2.1
+
+===============
+Alhamdulillah, lokomedia.web.id telah merilis cms lokodinas
+
+
+Spesifikasi script website ini :
+- support hingga PHP 7.2
+- menggunakan CodeIgniter terbaru 3.1.9
+- menggunakan enkripsi yang lebih aman yaitu password_hash sebagai pengganti MD5
+
+
+**perlu diperhatikan**
+- pastikan ganti password default admin sebelum anda upload ke hosting.
+
+- untuk konfigurasi database standar codeigniter ada di application -> config -> database.php
+
+- buatlah database di phpmyadmin dan import dari file lokodinas.sql
+
+default username dan password
+- username : admin
+- password : admin123
+- halaman admin : folderanda.com/administrator
+
+
+pada versi yang saya upload ini (26-02-2019), ada beberapa bagian yang harus diganti manual yaitu:
+- BAGIAN HEADER / BANNER ATAS TULISAN "PEMERINTAH KABUPATEN KARAWANG - DINAS PENGENDALIAN PENDUDUK DAN KELUARGA BERENCANA"
+untuk menggantinya di application -> views -> dinas-1 -> header.php
+- BAGIAN FOOTER jika kalian mau menghapus "POWERED BY LOKOMEDIA" ada di file  application -> views -> dinas-1 -> footer.php
+
+----------------------------------------------------------------------
+
+Jika anda menemukan bug, harap segera hubungi admin di: 0857.1612.9917 atau email dankrez48@gmail.com 
+untuk segera dilakukan perbaikan
+
+semoga bermanfaat,
+
+Salam
+Admin Lokomedia.web.id
