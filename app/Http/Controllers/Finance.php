@@ -216,6 +216,16 @@ class Finance extends Controller
         }
     }
 
+    // laporan warkop
+    public function warkop()
+    {
+        $warkop = KonsinyasiWarkop::all();
+        $anggota = Anggota::all();
+
+
+        return view('admin.mod_finance.warkop', compact('warkop', 'anggota'));
+    }
+
     public function simpanananggota()
     {
 
