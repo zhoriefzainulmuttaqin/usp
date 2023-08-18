@@ -88,34 +88,286 @@
                             <tbody>
                                 {{-- @if ($anggotaData->id == $data->anggota_id) --}}
                                 @php
-                                    $jumlah = $data;
+                                    $no = 1;
+                                    $jumlah = $warkop->deposit + $warkop->warkop + $warkop->pulsa + $warkop->kueh_titipan;
                                 @endphp
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td></td>
-                                    <td>{{ $data->nama_barang }}</td>
-                                    <td>{{ $data->saldo_awal_KW }}</td>
-                                    <td>{{ $data->mutasi_angsuran }}</td>
-                                    <td>{{ $data->mutasi_hpp }}</td>
-                                    <td>{{ $data->mutasi_harga_jual }}</td>
-                                    <td>{{ $rugilaba }}</td>
-                                    <td>{{ $saldo_akhirKW }}</td>
-                                    <td>{{ $data->angsuran_bln_dpn }}</td>
-                                    <td>{{ $data->ke }}</td>
-                                    <td>{{ $saldoKW_blnDpn }}</td>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Persediaan Awal</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
                                     <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
                                                 class="btn btn-sm btn-secondary" data-toggle="modal"
-                                                data-target="#tambahNilai{{ $data->id }}">
+                                                data-target="#tambahNilai{{ $warkop->id }}">
                                                 <span class="btn-label">
                                                     <i class="fa fa-plus"></i>
                                                 </span>
                                                 Tambah
                                             </button></span>
-                                        <a href="{{ asset('hapuskonsinyasi  /' . $data->id) }}" button type="button"
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
                                             class="btn btn-sm btn-danger"
                                             onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
                                                 class="fa fa-trash"></i>Hapus</a>
 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Pembelian/Belanja Tunai</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Pembelian/Belanja Kredit</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Jumlah Persediaan Barang/Siap Jual</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Jumlah Penjualan Kredit dan Tunai</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Persediaan Akhir</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Harga Beli</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Barang Rusak/Hilang/Beban</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>HPP</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>Rugi/Laba</td>
+                                    <td>{{ $warkop->deposit ?? '-' }}</td>
+                                    <td>{{ $warkop->warkop ?? '-' }}</td>
+                                    <td>{{ $warkop->pulsa ?? '-' }}</td>
+                                    <td>{{ $warkop->kueh_titipan ?? '-' }}</td>
+                                    <td>{{ $jumlah ?? '-' }}</td>
+
+                                    <td class="d-flex"> <span class="card-title mr-2 mt-3"><button
+                                                class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#tambahNilai{{ $warkop->id }}">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-plus"></i>
+                                                </span>
+                                                Tambah
+                                            </button></span>
+                                        <a href="{{ asset('hapuskonsinyasi  /' . $warkop->id) }}" button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onClick="return confirm('Yakin akan menghapus data ini?')"></button><i
+                                                class="fa fa-trash"></i>Hapus</a>
+
+                                    </td>
+                                </tr>
+                                <tr style="background-color: white;">
+                                    <td></td>
+                                    <td>
+                                        <h6>Keterangan:</h6>
+                                    </td>
+                                </tr>
+                                <tr style="background-color: white;">
+                                    <td></td>
+                                    <td>
+                                        <h6>Jumlah Penjualan Terdiri:</h6>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <h6>Penjualan Tunai</h6>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <h6>1234456789</h6>
+                                    </td>
+                                </tr>
+                                <tr style="background-color: white;">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <h6>Penjualan Kredit</h6>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <h6>0</h6>
                                     </td>
                                 </tr>
                                 {{-- @endif --}}
@@ -184,171 +436,42 @@
         </div>
     </div>
 
-    {{-- MODAL TAMBAH DATA --}}
-    <div id="tambah" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah Data</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="tambahkonsinyasi" method="post" action="/tambahkonsinyasi">
-                        @csrf
-                        <div class="row">
-                            <div class="col">
-                                <h4>Nama Anggota</h4>
-                                <select class="form-control" name="id_anggota">
-                                    @foreach ($anggota as $anggotaData)
-                                        <option value="{{ $anggotaData->id_anggota }}">
-                                            {{ $anggotaData->nama_anggota }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col">
-                                <h4>Nama Barang</h4>
-                                <input type="text" class="form-control" name="nama_barang" value="">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <h4>Saldo Awal KW</h4>
-                                <input type="number" class="form-control" name="saldo_awal_KW" value="">
-                            </div>
-                            <div class="col">
-                                <h4>Mutasi Angsuran Bulan Ini</h4>
-                                <input type="number" class="form-control" name="mutasi_angsuran" value="">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <h4>Mutasi HPP Bulan Ini</h4>
-                                <input type="number" class="form-control" name="mutasi_hpp" value="">
-                            </div>
-                            <div class="col">
-                                <h4>Mutasi Harga Jual</h4>
-                                <input type="number" class="form-control" name="mutasi_harga_jual" value="">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <h4>Angsuran Bulan Depan</h4>
-                                <input type="number" class="form-control" name="angsuran_bln_dpn" value="">
-                            </div>
-                            <div class="col">
-                                <h4>Ke</h4>
-                                <input type="number" class="form-control" name="ke" value="">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Tambah</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    {{-- MODAL TAMBAH NILAI SIMPANAN --}}
+    {{-- MODAL TAMBAH NILAI  --}}
     <form id="tambahpinjamanAnggota" method="post" action="/tambahpinjamanAnggota">
         @csrf
-        @foreach ($konsWarkop as $data)
-            <div id="tambahNilai{{ $data->id }}" class="modal fade" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Tambah Nilai Data {{ $data->anggota->nama_anggota }}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
 
-                            {{-- <input type="hidden" class="form-control" id="id" name="id"
+        <div id="tambahNilai{{ $warkop->id }}" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tambah Nilai Data </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        {{-- <input type="hidden" class="form-control" id="id" name="id"
                                 value="{{ $data->id_anggota }}"> --}}
 
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Simpanan Wajib Awal</h4>
-                                    <input type="number" class="form-control" name="sw_awal">
-                                </div>
-                                <div class="col">
-                                    <h4>Simpanan Wajib Bulan Ini</h4>
-                                    <input type="number" class="form-control" name="sw_bulan_ini">
-                                </div>
+                        <div class="row">
+                            <div class="col">
+                                <h4>Deposit</h4>
+                                <input type="number" class="form-control" name="sw_awal">
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Simpanan Wajib Akhir</h4>
-                                    <input type="number" class="form-control" name="sw_akhir">
-                                </div>
-                                <div class="col">
-                                    <h4>Saldo Awal Pinjaman</h4>
-                                    <input type="number" class="form-control" name="saldo_awal_pinjaman">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Pemberian Pinjaman</h4>
-                                    <input type="number" class="form-control" name="pemberian_pinjaman">
-                                </div>
-                                <div class="col">
-                                    <h4>Angsuran Pinjaman Pokok</h4>
-                                    <input type="number" class="form-control" name="angs_pinjaman_pokok">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Angsuran Pinjaman Asuransi</h4>
-                                    <input type="number" class="form-control" name="angs_pinjaman_partisipasi">
-                                </div>
-                                <div class="col">
-                                    <h4>Jumlah Partisipasi Bulan Ini</h4>
-                                    <input type="number" class="form-control" name="jml_partisipasi_bulan_ini">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Jumlah Partisipasi Bulan Lalu </h4>
-                                    <input type="number" class="form-control" name="jml_partisipasi_bulan_lalu">
-                                </div>
-                                <div class="col">
-                                    <h4>Jumlah Partisipasi s/d Bulan Ini</h4>
-                                    <input type="number" class="form-control" name="jml_partisipasi_sampai_bulan_ini">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Potongan Angsuran</h4>
-                                    <input type="number" class="form-control" name="potongan_angsuran">
-                                </div>
-                                <div class="col">
-                                    <h4>Potongan Partisipasi</h4>
-                                    <input type="number" class="form-control" name="potongan_partisipasi">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Potongan (ke) Bulan Ini</h4>
-                                    <input type="number" class="form-control" name="potongan_ke_bulan_ini">
-                                </div>
-                                <div class="col">
-                                    <h4>Potongan (ke) Bulan Lalu</h4>
-                                    <input type="number" class="form-control" name="potongan_ke_bulan_lalu">
-                                </div>
-
+                            <div class="col">
+                                <h4>Kueh Titipan</h4>
+                                <input type="number" class="form-control" name="sw_bulan_ini">
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Tambah</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
                 </div>
             </div>
-        @endforeach
+        </div>
     </form>
 
     <script src="/template/assets/js/core/jquery.3.2.1.min.js"></script>

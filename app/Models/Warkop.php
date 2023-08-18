@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Warkop extends Model
 {
-    protected $table = "shu";
-    protected $primaryKey = "id_shu";
+    protected $table = "warkop";
     protected $fillable = [
-        "tahun", "total",
+        "deposit",
+        "warkop",
+        "pulsa",
+        "kueh_titipan",
     ];
 }

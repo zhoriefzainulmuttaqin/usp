@@ -20,6 +20,7 @@ use App\Models\Simpanan;
 use App\Models\Tenor;
 use App\Models\TransaksiPembayaran;
 use App\Models\Transfer;
+use App\Models\Warkop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -181,7 +182,7 @@ class Finance extends Controller
             return redirect('modalpinjaman')->with('success', 'Data Berhasil Dihapus.');
         }
     }
-// konsinyasi warkop
+    // konsinyasi warkop
     public function konsinyasiWarkop()
     {
         $konsWarkop = KonsinyasiWarkop::all();
@@ -219,11 +220,12 @@ class Finance extends Controller
     // laporan warkop
     public function warkop()
     {
-        $warkop = KonsinyasiWarkop::all();
-        $anggota = Anggota::all();
+        $warkop = Warkop::first();
+        $inventory = DB::connection('mysql2')->table('inventory')->get();
 
 
-        return view('admin.mod_finance.warkop', compact('warkop', 'anggota'));
+
+        return view('admin.mod_finance.warkop', compact('warkop', 'inventory'));
     }
 
     public function simpanananggota()
