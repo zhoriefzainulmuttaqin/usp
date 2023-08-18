@@ -85,6 +85,9 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/modalpinjaman', "modalpinjaman"); //Modal Pinjaman per anggota
         Route::post('/tambahPinjAnggota', "tambahPinjAnggota");
         Route::get('hapusPinjAnggota/{id}', "hapusPinjAnggota");
+        Route::get('/konsinyasiwarkop', "konsinyasiWarkop"); //Konsinyasi Warkop
+        Route::post('/tambahkonsinyasi', "tambahKonsinyasi");
+        Route::get('hapuskonsinyasi/{id}', "hapuskonsinyasi");
         Route::get('/sisahasilusaha', "sisahasilusaha"); //SHU
         Route::get('/simpanan-anggota', "simpanananggota");
         Route::get('/simpanan-anggota/laporan', "laporansimpanananggota");

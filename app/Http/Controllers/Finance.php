@@ -11,6 +11,7 @@ use App\Models\JenisTransaksi;
 use App\Models\KategoriTransaksi;
 use App\Models\KreditMotor;
 use App\Models\ModalPinjamanAnggota;
+use App\Models\KonsinyasiWarkop;
 use App\Models\Peminjaman;
 use App\Models\Pengajuan;
 use App\Models\Pengambilan;
@@ -180,6 +181,41 @@ class Finance extends Controller
             return redirect('modalpinjaman')->with('success', 'Data Berhasil Dihapus.');
         }
     }
+// konsinyasi warkop
+    public function konsinyasiWarkop()
+    {
+        $konsWarkop = KonsinyasiWarkop::all();
+        $anggota = Anggota::all();
+
+
+        return view('admin.mod_finance.konsWarkop', compact('konsWarkop', 'anggota'));
+    }
+
+    public function tambahKonsinyasi(Request $request)
+    {
+        KonsinyasiWarkop::insert([
+            'id_anggota' => $request->id_anggota,
+            'nama_barang' => $request->nama_barang,
+            'saldo_awal_KW' => $request->saldo_awal_KW,
+            'mutasi_angsuran' => $request->mutasi_angsuran,
+            'mutasi_hpp' => $request->mutasi_hpp,
+            'mutasi_harga_jual' => $request->mutasi_harga_jual,
+            'angsuran_bln_dpn' => $request->angsuran_bln_dpn,
+            'ke' => $request->ke,
+        ]);
+
+        return redirect('konsinyasiwarkop')->with('success', 'Data Berhasil Dibuat.');
+    }
+
+    public function hapuskonsinyasi(Request $request)
+    {
+        $del = KonsinyasiWarkop::where('id', $request->id)->delete();
+
+        if ($del) {
+            return redirect('konsinyasiwarkop')->with('success', 'Data Berhasil Dihapus.');
+        }
+    }
+
     public function simpanananggota()
     {
 
