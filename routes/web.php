@@ -89,6 +89,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/tambahkonsinyasi', "tambahKonsinyasi");
         Route::get('hapuskonsinyasi/{id}', "hapuskonsinyasi");
         Route::get('/warkop', "warkop"); //Laporan Warkop
+        Route::post('/tambahNilaiWarkop', "tambahWarkop");
         Route::get('/sisahasilusaha', "sisahasilusaha"); //SHU
         Route::get('/simpanan-anggota', "simpanananggota");
         Route::get('/simpanan-anggota/laporan', "laporansimpanananggota");

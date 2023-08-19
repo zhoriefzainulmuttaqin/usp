@@ -228,6 +228,17 @@ class Finance extends Controller
         return view('admin.mod_finance.warkop', compact('warkop', 'inventory'));
     }
 
+    public function tambahWarkop(request $request)
+    {
+        DB::table('warkop')->update([
+            'deposit' => $request->deposit,
+            'kueh_titipan' => $request->kueh_titipan,
+
+        ]);
+
+        return redirect('warkop')->with('success', 'Data Berhasil Dibuat.');
+    }
+
     public function simpanananggota()
     {
 

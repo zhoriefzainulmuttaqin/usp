@@ -90,6 +90,8 @@
                                 @php
                                     $no = 1;
                                     $jumlah = $warkop->deposit + $warkop->warkop + $warkop->pulsa + $warkop->kueh_titipan;
+                                    
+                                    $jml_kredit_tunai = $warkop->deposit + $warkop->warkop + $warkop->pulsa + $warkop->kueh_titipan;
                                 @endphp
                                 <tr>
                                     <td>{{ $no++ }}</td>
@@ -438,7 +440,7 @@
 
 
     {{-- MODAL TAMBAH NILAI  --}}
-    <form id="tambahpinjamanAnggota" method="post" action="/tambahpinjamanAnggota">
+    <form id="tambahpinjamanAnggota" method="post" action="/tambahNilaiWarkop">
         @csrf
 
         <div id="tambahNilai{{ $warkop->id }}" class="modal fade" tabindex="-1" role="dialog">
@@ -458,11 +460,11 @@
                         <div class="row">
                             <div class="col">
                                 <h4>Deposit</h4>
-                                <input type="number" class="form-control" name="sw_awal">
+                                <input type="number" class="form-control" name="deposit">
                             </div>
                             <div class="col">
                                 <h4>Kueh Titipan</h4>
-                                <input type="number" class="form-control" name="sw_bulan_ini">
+                                <input type="number" class="form-control" name="kueh_titipan">
                             </div>
                         </div>
                     </div>
