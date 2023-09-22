@@ -130,6 +130,12 @@ Route::middleware(['admin'])->group(function () {
         Route::post("tambah_tenor_pinjaman", "tambahTenorPinjaman");
         Route::get("hapus_tenor_pinjaman/{id}", "hapusTenorPinjaman");
         Route::post("update_tenor_pinjaman", "updateTenorPinjaman");
+        Route::get('piutangunitphotocopy', "piutangunitphotocopy");
+        Route::post('/tambah-piutangunitphotocopy', "tambahPiutangUnitPhotocopy");
+        Route::post('/edit-piutangunitphotocopy', "editPiutangUnitPhotocopy");
+        Route::get('/hapus-piutangunitphotocopy/{id}', 'hapusPiutangUnitPhotocopy');
+        Route::get('/cetakpiutangunitphotocopy', 'cetakPiutangUnitPhotocopy');
+
     });
     Route::controller(SettingController::class)->group(function () {
         Route::get('/profileSettings', "profileSettings");

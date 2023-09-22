@@ -2,28 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anggota;
+use Session;
+use App\Models\Shu;
 use App\Models\Bank;
-use App\Models\Detailshu;
 use App\Models\Entri;
+use App\Models\Tenor;
+use App\Models\Warkop;
+use App\Models\Anggota;
+use App\Models\Simpanan;
+use App\Models\Transfer;
+use App\Models\Detailshu;
+use App\Models\Pengajuan;
+use App\Models\Peminjaman;
+use App\Models\KreditMotor;
+use App\Models\Pengambilan;
+use Illuminate\Http\Request;
 use App\Models\Jenispinjaman;
 use App\Models\JenisTransaksi;
-use App\Models\KategoriTransaksi;
-use App\Models\KreditMotor;
-use App\Models\ModalPinjamanAnggota;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\KonsinyasiWarkop;
-use App\Models\Peminjaman;
-use App\Models\Pengajuan;
-use App\Models\Pengambilan;
-use App\Models\Shu;
-use App\Models\Simpanan;
-use App\Models\Tenor;
-use App\Models\TransaksiPembayaran;
-use App\Models\Transfer;
-use App\Models\Warkop;
-use Illuminate\Http\Request;
+use App\Models\KategoriTransaksi;
 use Illuminate\Support\Facades\DB;
-use Session;
+use App\Models\TransaksiPembayaran;
+use App\Models\ModalPinjamanAnggota;
+use App\Models\PiutangUnitPhotocopy;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PiutangUnitPhotocopyExport;
 
 class Finance extends Controller
 {
@@ -687,5 +691,103 @@ class Finance extends Controller
         return response()->json([
             'anggota' => $value
         ], 200);
+    }
+
+    public function piutangUnitPhotocopy()
+    {
+        // Get data
+        $piutangfc = PiutangUnitPhotocopy::all();
+        return view('admin.mod_finance.piutangunitphotocopy', compact('piutangfc'));
+    }
+
+    public function tambahPiutangUnitPhotocopy(Request $request)
+    {
+        // Validasi input form
+        $request->validate([
+            'nama' => 'required',
+            'jumlah_bulan_lalu' => 'required|numeric',
+            'hutang_bulan_ini' => 'required|numeric',
+            'dibayar_bulan_ini' => 'required|numeric',
+            'keterangan' => 'required',
+        ]);
+
+        // Menghitung sisa & jumlah sd bulan ini
+        $sisa = $request->jumlah_bulan_lalu - $request->dibayar_bulan_ini;
+        $jumlah_sd_bulan_ini = $sisa + $request->hutang_bulan_ini;
+
+        // Membuat data piutang
+        $datapiutangfc = [
+            'nama' => $request->nama,
+            'jumlah_bulan_lalu' => $request->jumlah_bulan_lalu,
+            'hutang_bulan_ini' => $request->hutang_bulan_ini,
+            'dibayar_bulan_ini' => $request->dibayar_bulan_ini,
+            'sisa' => $sisa,
+            'jumlah_sd_bulan_ini' => $jumlah_sd_bulan_ini,
+            'keterangan' => $request->keterangan,
+        ];
+
+        // Menyimpan data ke database
+        if (PiutangUnitPhotocopy::insert($datapiutangfc)) {
+            return redirect()->back()->with('success', 'Berhasil Menambah Data Piutang Unit Photocopy');
+        } else {
+            return redirect()->back()->with('failed', 'Gagal Menambah Data Piutang Unit Photocopy');
+        }
+    }
+
+    public function editPiutangUnitPhotocopy(Request $request)
+    {
+        // dd($request);
+        // Validasi input form
+        $request->validate([
+            'nama' => 'required',
+            'jumlah_bulan_lalu' => 'required|numeric',
+            'hutang_bulan_ini' => 'required|numeric',
+            'dibayar_bulan_ini' => 'required|numeric',
+            'keterangan' => 'required',
+        ]);
+
+        // Menghitung sisa & jumlah sd bulan ini
+        $sisa = $request->jumlah_bulan_lalu - $request->dibayar_bulan_ini;
+        $jumlah_sd_bulan_ini = $sisa + $request->hutang_bulan_ini;
+
+        // Membuat data piutang yang akan diupdate
+        $datapiutangfc = [
+            'nama' => $request->nama,
+            'jumlah_bulan_lalu' => $request->jumlah_bulan_lalu,
+            'hutang_bulan_ini' => $request->hutang_bulan_ini,
+            'dibayar_bulan_ini' => $request->dibayar_bulan_ini,
+            'sisa' => $sisa,
+            'jumlah_sd_bulan_ini' => $jumlah_sd_bulan_ini,
+            'keterangan' => $request->keterangan,
+        ];
+
+        // Mengupdate data di database
+        $updated = PiutangUnitPhotocopy::where('id', $request->id)->update($datapiutangfc);
+
+        if ($updated) {
+            return redirect()->back()->with('success', 'Berhasil Memperbarui Data Piutang Unit Photocopy');
+        } else {
+            return redirect()->back()->with('failed', 'Gagal Memperbarui Data Piutang Unit Photocopy');
+        }
+    }
+
+    public function hapusPiutangUnitPhotocopy($id)
+    {
+        // delete data piutangfc
+        $deleted = PiutangUnitPhotocopy::where('id', $id)->delete();
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Berhasil Menghapus Data Piutang Unit Photocopy');
+        } else {
+            return redirect()->back()->with('failed', 'Gagal Menghapus Data Piutang Unit Photocopy');
+        }
+    }
+
+    public function cetakPiutangUnitPhotocopy()
+    {
+        $piutangfc = PiutangUnitPhotocopy::all();
+        $pdf = Pdf::loadView('admin.mod_finance.cetakpiutangunitphotocopy', ['piutangfc'=>$piutangfc]);
+        return $pdf->download('datapiutang.pdf');
+        // return view('admin.mod_finance.cetakpiutangunitphotocopy', compact('piutangfc'));
     }
 }
