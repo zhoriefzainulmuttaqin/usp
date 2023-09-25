@@ -135,6 +135,9 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/edit-piutangunitphotocopy', "editPiutangUnitPhotocopy");
         Route::get('/hapus-piutangunitphotocopy/{id}', 'hapusPiutangUnitPhotocopy');
         Route::get('/cetakpiutangunitphotocopy', 'cetakPiutangUnitPhotocopy');
+        Route::get('/laporan-keuangan', 'laporanKeuangan');
+        Route::post('/tambah-laporankeuangan', 'tambahLaporanKeuangan');
+        Route::get('/cetaklaporankeuangan', 'cetakLaporanKeuangan');
 
     });
     Route::controller(SettingController::class)->group(function () {

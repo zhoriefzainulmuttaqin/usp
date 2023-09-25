@@ -19,6 +19,7 @@ use App\Models\Pengambilan;
 use Illuminate\Http\Request;
 use App\Models\Jenispinjaman;
 use App\Models\JenisTransaksi;
+use App\Models\LaporanKeuangan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\KonsinyasiWarkop;
 use App\Models\KategoriTransaksi;
@@ -786,8 +787,35 @@ class Finance extends Controller
     public function cetakPiutangUnitPhotocopy()
     {
         $piutangfc = PiutangUnitPhotocopy::all();
-        $pdf = Pdf::loadView('admin.mod_finance.cetakpiutangunitphotocopy', ['piutangfc'=>$piutangfc]);
+        $pdf = Pdf::loadView('admin.mod_finance.cetakpiutangunitphotocopy', ['piutangfc' => $piutangfc]);
         return $pdf->download('datapiutangunitfc.pdf');
-        // return view('admin.mod_finance.cetakpiutangunitphotocopy', compact('piutangfc'));
+    }
+
+    public function laporanKeuangan()
+    {
+        $laporanKeuangan = LaporanKeuangan::all();
+        return view('admin.mod_finance.laporankeuangan', compact('laporanKeuangan'));
+    }
+
+    public function tambahLaporanKeuangan(Request $request)
+    {
+        $dataLaporanKeuangan = $request->validate([
+            'bulan' => 'required',
+            'tahun' => 'required',
+            'keterangan' => 'required',
+            'jumlah' => 'required|numeric',
+        ]);
+
+        LaporanKeuangan::create($dataLaporanKeuangan);
+
+        return redirect()->back()->with('success', 'Berhasil Menambah Data Laporan Keuangan');
+    }
+
+    public function cetakLaporanKeuangan()
+    {
+        $laporanKeuangan = LaporanKeuangan::all();
+        $pdf = Pdf::loadView('admin.mod_finance.cetaklaporankeuangan', ['laporanKeuangan' => $laporanKeuangan])->setPaper('a4', 'landscape');
+        // return view('admin.mod_finance.cetaklaporankeuangan', compact('laporanKeuangan'));
+        return $pdf->download('laporankeuangan.pdf');
     }
 }
