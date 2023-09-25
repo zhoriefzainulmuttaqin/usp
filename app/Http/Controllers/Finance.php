@@ -787,7 +787,7 @@ class Finance extends Controller
     {
         $piutangfc = PiutangUnitPhotocopy::all();
         $pdf = Pdf::loadView('admin.mod_finance.cetakpiutangunitphotocopy', ['piutangfc'=>$piutangfc]);
-        return $pdf->download('datapiutang.pdf');
+        return $pdf->download('datapiutangunitfc.pdf');
         // return view('admin.mod_finance.cetakpiutangunitphotocopy', compact('piutangfc'));
     }
 }
