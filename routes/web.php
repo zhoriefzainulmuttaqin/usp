@@ -138,6 +138,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/laporan-keuangan', 'laporanKeuangan');
         Route::post('/tambah-laporankeuangan', 'tambahLaporanKeuangan');
         Route::get('/cetaklaporankeuangan', 'cetakLaporanKeuangan');
+        Route::get('/hapus-laporankeuangan/{id}', 'hapusLaporanKeuangan');
 
     });
     Route::controller(SettingController::class)->group(function () {

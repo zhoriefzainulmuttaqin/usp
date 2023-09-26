@@ -57,6 +57,7 @@
                                     @foreach ($bulanMap as $bulanInggris => $bulanIndonesia)
                                         <th>{{ $bulanIndonesia }}</th>
                                     @endforeach
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <!-- Bagian body tabel -->
@@ -83,6 +84,17 @@
                                                 <td>Rp.{{ number_format($jumlah) }}</td>
                                             @endif
                                         @endforeach
+                                        <td class="d-flex">
+                                            <button type="button" title="" class="btn btn-link btn-primary btn-lg"
+                                                data-toggle="modal" data-target="#simpanananggota{{ $entry->id }}"><i
+                                                    class="fa fa-edit"></i>
+                                            </button>
+                                            <a href="{{ asset('/hapus-laporankeuangan/' . $entry->id) }}" type="button"
+                                                data-toggle="tooltip" title="" class="btn btn-link btn-danger mt-2"
+                                                data-original-title="Remove" <?php echo "onclick=\"return confirm('Apa anda yakin untuk hapus Data ini?')\" "; ?>>
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -165,6 +177,71 @@
             </div>
         </div>
     </form>
+
+    @foreach ($laporanKeuangan as $item)
+        <form action="{{ asset('edit-piutangunitphotocopy') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="modal fade" id="simpanananggota{{ $item->id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Tambah Laporan Keuangan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Bulan</h4>
+                            <input type="hidden" name="tahun" id="tahunInput" class="form-control">
+                            @php
+                                $bulanMap = [
+                                    '01' => 'Januari',
+                                    '02' => 'Februari',
+                                    '03' => 'Maret',
+                                    '04' => 'April',
+                                    '05' => 'Mei',
+                                    '06' => 'Juni',
+                                    '07' => 'Juli',
+                                    '08' => 'Agustus',
+                                    '09' => 'September',
+                                    '10' => 'Oktober',
+                                    '11' => 'November',
+                                    '12' => 'Desember',
+                                ];
+                            @endphp
+                            <select name="bulan" class="form-select form-control" id="">
+                                <option value="" selected disabled>-- {{ $bulanMap[$item->bulan] }} --</option>
+                                <option value="01">Januari</option>
+                                <option value="02">Februari</option>
+                                <option value="03">Maret</option>
+                                <option value="04">April</option>
+                                <option value="05">Mei</option>
+                                <option value="06">Juni</option>
+                                <option value="07">Juli</option>
+                                <option value="08">Agustus</option>
+                                <option value="09">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+
+                            <h4>Keterangan</h4>
+                            <textarea type="text" name="keterangan" id="" class="form-control"
+                                placeholder="{{ $item->keterangan }}"> {{ $item->keterangan }}</textarea>
+                            <h4>Jumlah</h4>
+                            <input type="number" name="jumlah" id="" class="form-control"
+                                placeholder="{{ $item->jumlah }}" value="{{ $item->jumlah }}" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    @endforeach
 
     <script>
         // get current year

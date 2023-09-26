@@ -815,7 +815,12 @@ class Finance extends Controller
     {
         $laporanKeuangan = LaporanKeuangan::all();
         $pdf = Pdf::loadView('admin.mod_finance.cetaklaporankeuangan', ['laporanKeuangan' => $laporanKeuangan])->setPaper('a4', 'landscape');
-        // return view('admin.mod_finance.cetaklaporankeuangan', compact('laporanKeuangan'));
         return $pdf->download('laporankeuangan.pdf');
+    }
+
+    public function hapusLaporanKeuangan($id)
+    {
+        LaporanKeuangan::where('id', $id)->delete();
+        return redirect()->back()->with('success', 'Berhasil Menghapus Data Laporan Keuangan');
     }
 }
