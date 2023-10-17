@@ -19,6 +19,7 @@ use App\Models\Pengambilan;
 use Illuminate\Http\Request;
 use App\Models\Jenispinjaman;
 use App\Models\JenisTransaksi;
+use App\Models\LaporanWaserda;
 use App\Models\LaporanKeuangan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\KonsinyasiWarkop;
@@ -822,5 +823,38 @@ class Finance extends Controller
     {
         LaporanKeuangan::where('id', $id)->delete();
         return redirect()->back()->with('success', 'Berhasil Menghapus Data Laporan Keuangan');
+    }
+
+    public function LaporanWaserda()
+    {
+        $data = LaporanWaserda::all();
+        return view('admin.mod_finance.laporan-waserda', compact('data'));
+    }
+
+    public function TambahLaporanWaserda(Request $request)
+    {
+        $dataLaporanWaserda = $request->validate([
+            'keterangan' => 'required',
+            'deposit' => 'required',
+            'warkop' => 'required',
+            'pulsa' => 'required',
+            'kueh_titipan' => 'required',
+            'bulan' => 'required',
+        ]);
+
+        $jumlah = $dataLaporanWaserda['deposit'] + $dataLaporanWaserda['warkop'] + $dataLaporanWaserda['pulsa'] + $dataLaporanWaserda['kueh_titipan'];
+
+        $data = [
+            'keterangan' => $dataLaporanWaserda['keterangan'],
+            'deposit' => $dataLaporanWaserda['deposit'],
+            'warkop' => $dataLaporanWaserda['warkop'],
+            'pulsa' => $dataLaporanWaserda['pulsa'],
+            'kueh_titipan' => $dataLaporanWaserda['kueh_titipan'],
+            'bulan' => $dataLaporanWaserda['bulan'],
+            'jumlah' => $jumlah,
+        ];
+
+        LaporanWaserda::create($data);
+        return redirect()->back()->with('success', 'Berhasil Menambah Data Laporan Waserda');
     }
 }

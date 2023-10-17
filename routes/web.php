@@ -139,6 +139,8 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/tambah-laporankeuangan', 'tambahLaporanKeuangan');
         Route::get('/cetaklaporankeuangan', 'cetakLaporanKeuangan');
         Route::get('/hapus-laporankeuangan/{id}', 'hapusLaporanKeuangan');
+        Route::get('/laporan-waserda', 'LaporanWaserda');
+        Route::post('/tambah-laporanwaserda', 'TambahLaporanWaserda');
 
     });
     Route::controller(SettingController::class)->group(function () {
