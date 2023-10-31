@@ -144,8 +144,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/tambah-laporanwaserda', 'TambahLaporanWaserda');
         Route::post('/edit-laporanwaserda', 'editLaporanWaserda');
         Route::get('/hapus-laporanwaserda/{id}', 'hapusLaporanWaserda');
-
-
+        Route::get('/cetak-laporan-waserda', 'CetakLaporanWaserda');
     });
     Route::controller(SettingController::class)->group(function () {
         Route::get('/profileSettings', "profileSettings");

@@ -931,8 +931,13 @@ class Finance extends Controller
 
     public function cetakLaporanWaserda()
     {
-        $laporanKeuangan = LaporanKeuangan::all();
-        $pdf = Pdf::loadView('admin.mod_finance.cetaklaporankeuangan', ['laporanKeuangan' => $laporanKeuangan])->setPaper('a4', 'landscape');
-        return $pdf->download('laporankeuangan.pdf');
+
+        $laporanwaserda = LaporanWaserda::all();
+
+        // Hitung totalSum
+        $totalSum = $laporanwaserda->sum('jumlah');
+        $laporanwaserda = LaporanWaserda::all();
+        $pdf = Pdf::loadView('admin.mod_finance.cetaklaporanwaserda', compact('laporanwaserda', 'totalSum'))->setPaper('a4', 'landscape');
+        return $pdf->download('laporan-waserda.pdf');
     }
 }

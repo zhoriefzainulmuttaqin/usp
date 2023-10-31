@@ -11,7 +11,7 @@
                             </span>
                             Tambah Laporan Waserda
                         </button>
-                        <a onclick="openWin()" target="_blank" href="{{ asset('cetakpiutangunitphotocopy') }}"
+                        <a onclick="openWin()" target="_blank" href="{{ asset('cetak-laporan-waserda') }}"
                             id="export-button" class="btn btn-primary text-white">
                             <span class="btn-label">
                                 <i class="fa fa-file-alt"></i>
