@@ -807,9 +807,43 @@ class Finance extends Controller
             'jumlah' => 'required|numeric',
         ]);
 
-        LaporanKeuangan::create($dataLaporanKeuangan);
+        $data = [
+            'bulan' => $dataLaporanKeuangan['bulan'],
+            'beban' => $request->beban,
+            'tahun' => $dataLaporanKeuangan['tahun'],
+            'keterangan' => $dataLaporanKeuangan['keterangan'],
+            'jumlah' => $dataLaporanKeuangan['jumlah'],
+        ];
+
+        LaporanKeuangan::create($data);
 
         return redirect()->back()->with('success', 'Berhasil Menambah Data Laporan Keuangan');
+    }
+
+    public function editLaporanKeuangan(Request $request)
+    {
+        $dataLaporanKeuangan = $request->validate([
+            'bulan' => 'required',
+            'tahun' => 'required',
+            'keterangan' => 'required',
+            'jumlah' => 'required|numeric',
+        ]);
+
+        $data = [
+            'bulan' => $dataLaporanKeuangan['bulan'],
+            'beban' => $request->beban,
+            'tahun' => $dataLaporanKeuangan['tahun'],
+            'keterangan' => $dataLaporanKeuangan['keterangan'],
+            'jumlah' => $dataLaporanKeuangan['jumlah'],
+        ];
+
+        if ($request->beban == null) {
+            $data['beban'] = 'tidak beban';
+        }
+
+        LaporanKeuangan::where('id', $request->id)->update($data);
+
+        return redirect()->back()->with('success', 'Berhasil Memperbarui Data Laporan Keuangan');
     }
 
     public function cetakLaporanKeuangan()
@@ -856,5 +890,49 @@ class Finance extends Controller
 
         LaporanWaserda::create($data);
         return redirect()->back()->with('success', 'Berhasil Menambah Data Laporan Waserda');
+    }
+
+    public function editLaporanWaserda(Request $request)
+    {
+        //edit laporan kuangan
+        // dd($request);
+        $dataLaporanWaserda = $request->validate([
+            'keterangan' => 'required',
+            'deposit' => 'required',
+            'warkop' => 'required',
+            'pulsa' => 'required',
+            'kueh_titipan' => 'required',
+            'bulan' => 'required',
+        ]);
+
+        $jumlah = $dataLaporanWaserda['deposit'] + $dataLaporanWaserda['warkop'] + $dataLaporanWaserda['pulsa'] + $dataLaporanWaserda['kueh_titipan'];
+
+        $data = [
+            'keterangan' => $dataLaporanWaserda['keterangan'],
+            'deposit' => $dataLaporanWaserda['deposit'],
+            'warkop' => $dataLaporanWaserda['warkop'],
+            'pulsa' => $dataLaporanWaserda['pulsa'],
+            'kueh_titipan' => $dataLaporanWaserda['kueh_titipan'],
+            'bulan' => $dataLaporanWaserda['bulan'],
+            'jumlah' => $jumlah,
+        ];
+
+        LaporanWaserda::where('id', $request->id)->update($data);
+
+        return redirect()->back()->with('success', 'Berhasil Memperbarui Data Laporan Waserda');
+    }
+
+    public function hapusLaporanWaserda($id)
+    {
+        LaporanWaserda::where('id', $id)->delete();
+        return redirect()->back()->with('success', 'Berhasil Menghapus Data Laporan Keuangan');
+    }
+
+
+    public function cetakLaporanWaserda()
+    {
+        $laporanKeuangan = LaporanKeuangan::all();
+        $pdf = Pdf::loadView('admin.mod_finance.cetaklaporankeuangan', ['laporanKeuangan' => $laporanKeuangan])->setPaper('a4', 'landscape');
+        return $pdf->download('laporankeuangan.pdf');
     }
 }

@@ -138,9 +138,13 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/laporan-keuangan', 'laporanKeuangan');
         Route::post('/tambah-laporankeuangan', 'tambahLaporanKeuangan');
         Route::get('/cetaklaporankeuangan', 'cetakLaporanKeuangan');
+        Route::post('/editlaporankeuangan', 'editLaporanKeuangan');
         Route::get('/hapus-laporankeuangan/{id}', 'hapusLaporanKeuangan');
         Route::get('/laporan-waserda', 'LaporanWaserda');
         Route::post('/tambah-laporanwaserda', 'TambahLaporanWaserda');
+        Route::post('/edit-laporanwaserda', 'editLaporanWaserda');
+        Route::get('/hapus-laporanwaserda/{id}', 'hapusLaporanWaserda');
+
 
     });
     Route::controller(SettingController::class)->group(function () {

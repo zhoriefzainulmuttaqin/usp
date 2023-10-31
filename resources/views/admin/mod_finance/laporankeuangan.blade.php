@@ -81,14 +81,15 @@
                                             @if ($jumlah == 0)
                                                 <td>-</td>
                                             @else
-                                                <td>Rp.{{ number_format($jumlah) }}</td>
+                                                <td>
+                                                    <button type="button" title=""
+                                                        class="btn btn-link btn-primary btn-lg" data-toggle="modal"
+                                                        data-target="#simpanananggota{{ $entry->id }}">Rp.{{ number_format($jumlah) }}
+                                                    </button>
+                                                </td>
                                             @endif
                                         @endforeach
                                         <td class="d-flex">
-                                            <button type="button" title="" class="btn btn-link btn-primary btn-lg"
-                                                data-toggle="modal" data-target="#simpanananggota{{ $entry->id }}"><i
-                                                    class="fa fa-edit"></i>
-                                            </button>
                                             <a href="{{ asset('/hapus-laporankeuangan/' . $entry->id) }}" type="button"
                                                 data-toggle="tooltip" title="" class="btn btn-link btn-danger mt-2"
                                                 data-original-title="Remove" <?php echo "onclick=\"return confirm('Apa anda yakin untuk hapus Data ini?')\" "; ?>>
@@ -117,7 +118,7 @@
                                             // Ambil total jumlah berdasarkan bulan, kecuali untuk keterangan "Belanja"
                                             $total = $laporanKeuangan
                                                 ->where('bulan', $bulanAngka)
-                                                ->where('keterangan', '!=', 'Belanja') // Exclude keterangan "Belanja"
+                                                ->where('beban', '!=', 'tidak beban') // Exclude keterangan "Belanja"
                                                 ->sum('jumlah');
                                         @endphp
                                         <th>Rp.{{ number_format($total) }}</th>
@@ -147,7 +148,7 @@
                         <h4>Bulan</h4>
                         <input type="hidden" name="tahun" id="tahunInput" class="form-control">
                         <select name="bulan" class="form-select form-control" id="">
-                            <option value="" selected disabled>-- Pilih Bulan --</option>
+                            <option selected disabled>-- Pilih Bulan --</option>
                             <option value="01">Januari</option>
                             <option value="02">Februari</option>
                             <option value="03">Maret</option>
@@ -163,11 +164,16 @@
                         </select>
 
                         <h4>Keterangan</h4>
-                        <textarea type="text" name="keterangan" id="" class="form-control"
-                            placeholder="Masukkan keterangan laporan keuangan"></textarea>
+                        <textarea type="text" name="keterangan" class="form-control" placeholder="Masukkan keterangan laporan keuangan"></textarea>
                         <h4>Jumlah</h4>
-                        <input type="number" name="jumlah" id="" class="form-control"
+                        <input type="number" name="jumlah" class="form-control"
                             placeholder="Masukkan jumlah laporan keuangan" />
+
+                        <div class="row p-3">
+                            <input type="checkbox" id="beban" value="beban" name="beban">
+                            <label class="px-2" for="beban">Beban Keuangan</label>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
@@ -179,21 +185,22 @@
     </form>
 
     @foreach ($laporanKeuangan as $item)
-        <form action="{{ asset('edit-piutangunitphotocopy') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ asset('editlaporankeuangan') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="modal fade" id="simpanananggota{{ $item->id }}" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Tambah Laporan Keuangan</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Laporan Keuangan</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <h4>Bulan</h4>
-                            <input type="hidden" name="tahun" id="tahunInput" class="form-control">
+                            <input type="hidden" name="tahun" value="{{ $item->tahun }}" class="form-control">
+                            <input type="hidden" name="id" value="{{ $item->id }}" class="form-control">
                             @php
                                 $bulanMap = [
                                     '01' => 'Januari',
@@ -211,7 +218,8 @@
                                 ];
                             @endphp
                             <select name="bulan" class="form-select form-control" id="">
-                                <option value="" selected disabled>-- {{ $bulanMap[$item->bulan] }} --</option>
+                                <option value="{{ $item->bulan }}" selected>-- {{ $bulanMap[$item->bulan] }} --
+                                </option>
                                 <option value="01">Januari</option>
                                 <option value="02">Februari</option>
                                 <option value="03">Maret</option>
@@ -232,6 +240,11 @@
                             <h4>Jumlah</h4>
                             <input type="number" name="jumlah" id="" class="form-control"
                                 placeholder="{{ $item->jumlah }}" value="{{ $item->jumlah }}" />
+
+                            <div class="row p-3">
+                                <input type="checkbox" id="beban" value="beban" name="beban">
+                                <label class="px-2" for="beban">Beban Keuangan</label>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
@@ -253,9 +266,7 @@
 
         // Panggil fungsi saat halaman dimuat
         window.onload = getCurrentYear;
-    </script>
 
-    <script>
         var myWindow;
 
         function openWin() {
