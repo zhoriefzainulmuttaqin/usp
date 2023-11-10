@@ -145,6 +145,11 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/edit-laporanwaserda', 'editLaporanWaserda');
         Route::get('/hapus-laporanwaserda/{id}', 'hapusLaporanWaserda');
         Route::get('/cetak-laporan-waserda', 'CetakLaporanWaserda');
+        Route::get('/penilaianhartatetap', 'PenilaianHartaTetap');
+        Route::post('/tambah-penilaianhartatetap', 'TambahPenilaianHartaTetap');
+        Route::post('/edit-penilaianhartatetap/{id}', 'EditPenilaianHartaTetap');
+        Route::get('/hapus-penilaianhartatetap/{id}', 'HapusPenilaianHartaTetap');
+        Route::get('/cetak-laporan-penilaianhartatetap', 'CetakPenilaianHartaTetap');
     });
     Route::controller(SettingController::class)->group(function () {
         Route::get('/profileSettings', "profileSettings");

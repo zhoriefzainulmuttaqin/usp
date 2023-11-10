@@ -19,17 +19,15 @@ use App\Models\Pengambilan;
 use Illuminate\Http\Request;
 use App\Models\Jenispinjaman;
 use App\Models\JenisTransaksi;
-use App\Models\LaporanWaserda;
 use App\Models\LaporanKeuangan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\KonsinyasiWarkop;
 use App\Models\KategoriTransaksi;
 use Illuminate\Support\Facades\DB;
+use App\Models\PenilaianHartaTetap;
 use App\Models\TransaksiPembayaran;
 use App\Models\ModalPinjamanAnggota;
 use App\Models\PiutangUnitPhotocopy;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\PiutangUnitPhotocopyExport;
 
 class Finance extends Controller
 {
@@ -939,5 +937,105 @@ class Finance extends Controller
         $laporanwaserda = LaporanWaserda::all();
         $pdf = Pdf::loadView('admin.mod_finance.cetaklaporanwaserda', compact('laporanwaserda', 'totalSum'))->setPaper('a4', 'landscape');
         return $pdf->download('laporan-waserda.pdf');
+    }
+
+    public function PenilaianHartaTetap()
+    {
+        $data = PenilaianHartaTetap::all();
+        return view('admin.mod_finance.penilaianHartaTetap', compact('data'));
+    }
+
+    public function TambahPenilaianHartaTetap(Request $request)
+    {
+        // Mengambil data dari permintaan HTTP dan melakukan validasi
+        $data = $request->validate([
+            'nama_barang' => 'required|string',
+            'jumlah' => 'required|integer',
+            'nilai_perolehan_th_lalu' => 'required|numeric',
+            'tahun_lalu' => 'required|numeric',
+            'tahun_ini' => 'required|numeric',
+            'keterangan' => 'string',
+        ]);
+
+        // Inisialisasi nilai mutasi menjadi 0
+        $data['mutasi_minus'] = 0;
+        $data['mutasi_plus'] = 0;
+
+        // Menghitung nilai perolehan tahun ini berdasarkan tipe mutasi (jika ada)
+        if ($request->has('mutasi_type')) {
+            if ($request->mutasi_type == 'plus') {
+                $data['mutasi_plus'] = $request->mutasi_plus;
+            } else {
+                $data['mutasi_minus'] = $request->mutasi_minus;
+            }
+        }
+
+        // Menghitung nilai perolehan tahun ini
+        $data['nilai_perolehan_th_ini'] = $data['nilai_perolehan_th_lalu'] + $data['mutasi_plus'] - $data['mutasi_minus'];
+
+        // Menghitung total akumulasi penyusutan dan nilai buku tahun ini
+        $total_akumulasi_penyusutan = $data['tahun_ini'] + $data['tahun_lalu'];
+        $data['sd_tahun_ini'] = $total_akumulasi_penyusutan;
+        $data['nilai_buku_tahun_ini'] = max($data['nilai_perolehan_th_ini'] - $total_akumulasi_penyusutan, 0);
+
+        // Membuat data baru dalam database
+        PenilaianHartaTetap::create($data);
+
+        return redirect()->back()->with('success', 'Data berhasil dibuat');
+    }
+
+    public function EditPenilaianHartaTetap(Request $request)
+    {
+
+        // Mengambil data dari permintaan HTTP
+        $data = $request->validate([
+            'nama_barang' => 'nullable|string',
+            'jumlah' => 'nullable|integer',
+            'nilai_perolehan_th_lalu' => 'nullable|numeric',
+            'tahun_lalu' => 'nullable|numeric',
+            'tahun_ini' => 'nullable|numeric',
+            'keterangan' => 'string',
+        ]);
+
+        // Inisialisasi nilai mutasi menjadi 0
+        $data['mutasi_minus'] = 0;
+        $data['mutasi_plus'] = 0;
+        $mutasitype = 'mutasi_type' . $request->id;
+
+        // Menghitung nilai perolehan tahun ini berdasarkan tipe mutasi (jika ada)
+        if ($request->has($mutasitype)) {
+            if ($request->$mutasitype == 'plus') {
+                $data['mutasi_plus'] = $request->mutasiEdit_plus;
+            } else {
+                $data['mutasi_minus'] = $request->mutasiEdit_minus;
+            }
+        }
+
+        // Menghitung nilai perolehan tahun ini
+        $data['nilai_perolehan_th_ini'] = $data['nilai_perolehan_th_lalu'] + $data['mutasi_plus'] - $data['mutasi_minus'];
+
+        // Menghitung total akumulasi penyusutan dan nilai buku tahun ini
+        $total_akumulasi_penyusutan = $data['tahun_ini'] + $data['tahun_lalu'];
+        $data['sd_tahun_ini'] = $total_akumulasi_penyusutan;
+        $data['nilai_buku_tahun_ini'] = max($data['nilai_perolehan_th_ini'] - $total_akumulasi_penyusutan, 0);
+        // dd($data, $request);
+
+        // Memperbarui data dalam database
+        PenilaianHartaTetap::where('id', $request->id)->update($data);
+
+        return redirect()->back()->with('success', 'Data berhasil diupdate');
+    }
+
+    public function HapusPenilaianHartaTetap($id)
+    {
+        PenilaianHartaTetap::where('id', $id)->delete();
+        return redirect()->back()->with('success', 'Berhasil Menghapus Data Laporan Keuangan');
+    }
+
+    public function CetakPenilaianHartaTetap()
+    {
+        $data = PenilaianHartaTetap::all();
+        $pdf = Pdf::loadView('admin.mod_finance.cetaklaporanpenilaianhartatetap', compact('data'))->setPaper('a4', 'landscape');
+        return $pdf->download('laporan-penilaianhartatetap.pdf');
     }
 }
